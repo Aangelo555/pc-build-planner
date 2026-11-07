@@ -24,10 +24,11 @@ const emptyBuild = {
 }
 
 // ===== COMPONENT =====
-function BuilderScreen({ onBack }) {
+function BuilderScreen({ onBack, onOpenSaved, startBuild }) {
 
   // ----- State -----
-  const [build, setBuild] = useState(emptyBuild)
+  // start with a saved build if one was opened, otherwise empty
+  const [build, setBuild] = useState(startBuild || emptyBuild)
 
   const [picking, setPicking] = useState(null)
 
@@ -127,6 +128,7 @@ function BuilderScreen({ onBack }) {
       <nav className="builder-nav">
         <button className="btn-back" onClick={onBack}>← Back</button>
         <span className="logo">PC Build Planner</span>
+        <button className="btn-choose" onClick={onOpenSaved}>My builds</button>
       </nav>
 
       <div className="builder-grid">

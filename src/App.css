@@ -423,6 +423,86 @@
 }
 
 /* ========================
+   MY BUILDS
+======================== */
+.saved-empty {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.saved-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.saved-card {
+  display: flex;
+  flex-direction: column;
+  padding: 22px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  transition: 0.2s ease;
+}
+
+.saved-card:hover {
+  border-color: rgba(198, 244, 50, 0.35);
+}
+
+.saved-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.saved-top h3 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
+
+.saved-price {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.saved-parts {
+  list-style: none;
+  margin: 16px 0;
+  padding: 0;
+}
+
+.saved-parts li {
+  padding: 6px 0;
+  font-size: 13px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+}
+
+.saved-parts li:last-child {
+  border-bottom: none;
+}
+
+.saved-date {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.saved-actions {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  margin-top: 16px;
+}
+
+/* ========================
    PART PICKER
 ======================== */
 .picker-overlay {
@@ -575,6 +655,10 @@
   }
 
   .builder-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .saved-grid {
     grid-template-columns: 1fr;
   }
 
