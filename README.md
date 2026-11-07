@@ -119,7 +119,7 @@ pc-build-planner/
 
 ## Credits
 
-3D model: ["GeForce RTX 4090 Founders Edition"](SKETCHFAB-LINK) by Alexander Ershov (exéla) on Sketchfab, licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The model was rotated and scaled for this project.
+3D model: ["GeForce RTX 4090 Founders Edition"](https://sketchfab.com/3d-models/geforce-rtx-4090-founders-edition-d417c0b4c3bd475eb9669afcd14a2601) by Alexander Ershov (exéla) on Sketchfab, licensed under [CC BY-NC 4.0](https://creativecommons.org/licenses/by-nc/4.0/). The model was rotated and scaled for this project.
 
 Part prices are rough SGD estimates and only for demo purposes.
 
