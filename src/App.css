@@ -370,6 +370,58 @@
   color: var(--amber);
 }
 
+/* ----- Save build ----- */
+.save-box {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.save-input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 11px 14px;
+  font-size: 14px;
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  outline: none;
+}
+
+.save-input:focus {
+  border-color: var(--accent);
+}
+
+.btn-save {
+  width: 100%;
+  margin-top: 10px;
+  padding: 11px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0a0a0a;
+  background: var(--accent);
+  border: none;
+  border-radius: 8px;
+  transition: 0.2s ease;
+}
+
+.btn-save:hover {
+  background: #d4ff4a;
+}
+
+.btn-save:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.save-message {
+  margin-top: 10px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--muted);
+}
+
 /* ========================
    PART PICKER
 ======================== */

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import parts from '../data/parts'
 import PartPicker from './PartPicker'
 import { getPowerNeeded, getIssues, getWarnings } from '../utils/compatibility'
+import API_URL from '../api'
 
 // ===== SLOTS =====
 const slots = [
@@ -30,6 +31,10 @@ function BuilderScreen({ onBack }) {
 
   const [picking, setPicking] = useState(null)
 
+  const [buildName, setBuildName] = useState("")
+  const [saveMessage, setSaveMessage] = useState("")
+  const [saving, setSaving] = useState(false)
+
   // ----- Functions -----
   function pickPart(part) {
     setBuild({ ...build, [picking.key]: part })
@@ -42,6 +47,44 @@ function BuilderScreen({ onBack }) {
 
   function resetBuild() {
     setBuild(emptyBuild)
+    setSaveMessage("")
+  }
+
+  // ----- Save build to the database -----
+  async function saveBuild() {
+    if (buildName.trim() === "") {
+      setSaveMessage("Give your build a name first")
+      return
+    }
+
+    // only send each part's id, not the whole part
+    const partIds = {}
+    for (const slot of slots) {
+      partIds[slot.key] = build[slot.key] ? build[slot.key].id : null
+    }
+
+    setSaving(true)
+    setSaveMessage("")
+
+    try {
+      const res = await fetch(API_URL + "/api/builds", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name: buildName, parts: partIds, totalPrice: totalPrice }),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setSaveMessage(data.message || "Could not save build")
+      } else {
+        setSaveMessage("Build saved!")
+        setBuildName("")
+      }
+    } catch (err) {
+      setSaveMessage("Can't reach the server right now")
+    }
+
+    setSaving(false)
   }
 
   // ----- Totals -----
@@ -156,6 +199,24 @@ function BuilderScreen({ onBack }) {
                 <li className="warning" key={warning}>{warning}</li>
               ))}
             </ul>
+          )}
+
+          {/* Save build */}
+          {partsPicked > 0 && (
+            <div className="save-box">
+              <span className="summary-label">Save this build</span>
+              <input
+                className="save-input"
+                type="text"
+                placeholder="e.g. My gaming PC"
+                value={buildName}
+                onChange={(e) => setBuildName(e.target.value)}
+              />
+              <button className="btn-save" onClick={saveBuild} disabled={saving}>
+                {saving ? "Saving..." : "Save build"}
+              </button>
+              {saveMessage && <p className="save-message">{saveMessage}</p>}
+            </div>
           )}
         </aside>
 
