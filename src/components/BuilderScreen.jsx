@@ -24,7 +24,7 @@ const emptyBuild = {
 }
 
 // ===== COMPONENT =====
-function BuilderScreen({ onBack, onOpenSaved, startBuild }) {
+function BuilderScreen({ startBuild, token, username, onBack, onOpenSaved, onNeedLogin, onLogout }) {
 
   // ----- State -----
   // start with a saved build if one was opened, otherwise empty
@@ -53,6 +53,12 @@ function BuilderScreen({ onBack, onOpenSaved, startBuild }) {
 
   // ----- Save build to the database -----
   async function saveBuild() {
+    // not logged in yet, send them to log in (their build is kept)
+    if (!token) {
+      onNeedLogin(build)
+      return
+    }
+
     if (buildName.trim() === "") {
       setSaveMessage("Give your build a name first")
       return
@@ -70,11 +76,17 @@ function BuilderScreen({ onBack, onOpenSaved, startBuild }) {
     try {
       const res = await fetch(API_URL + "/api/builds", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token,
+        },
         body: JSON.stringify({ name: buildName, parts: partIds, totalPrice: totalPrice }),
       })
 
-      if (!res.ok) {
+      if (res.status === 401) {
+        setSaveMessage("Your login expired, please log in again")
+        onLogout()
+      } else if (!res.ok) {
         const data = await res.json()
         setSaveMessage(data.message || "Could not save build")
       } else {
@@ -128,7 +140,15 @@ function BuilderScreen({ onBack, onOpenSaved, startBuild }) {
       <nav className="builder-nav">
         <button className="btn-back" onClick={onBack}>← Back</button>
         <span className="logo">PC Build Planner</span>
-        <button className="btn-choose" onClick={onOpenSaved}>My builds</button>
+        <div className="nav-right">
+          {username && <span className="nav-user">Hi, {username}</span>}
+          <button className="btn-choose" onClick={onOpenSaved}>My builds</button>
+          {username ? (
+            <button className="btn-back" onClick={onLogout}>Log out</button>
+          ) : (
+            <button className="btn-back" onClick={() => onNeedLogin(build)}>Log in</button>
+          )}
+        </div>
       </nav>
 
       <div className="builder-grid">
@@ -207,15 +227,17 @@ function BuilderScreen({ onBack, onOpenSaved, startBuild }) {
           {partsPicked > 0 && (
             <div className="save-box">
               <span className="summary-label">Save this build</span>
-              <input
-                className="save-input"
-                type="text"
-                placeholder="e.g. My gaming PC"
-                value={buildName}
-                onChange={(e) => setBuildName(e.target.value)}
-              />
+              {token && (
+                <input
+                  className="save-input"
+                  type="text"
+                  placeholder="e.g. My gaming PC"
+                  value={buildName}
+                  onChange={(e) => setBuildName(e.target.value)}
+                />
+              )}
               <button className="btn-save" onClick={saveBuild} disabled={saving}>
-                {saving ? "Saving..." : "Save build"}
+                {!token ? "Log in to save" : saving ? "Saving..." : "Save build"}
               </button>
               {saveMessage && <p className="save-message">{saveMessage}</p>}
             </div>

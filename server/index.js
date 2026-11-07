@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 require('dotenv').config();
 
+const authRoutes = require('./routes/auth');
 const buildRoutes = require('./routes/builds');
 
 // ===== APP SETUP =====
@@ -16,7 +17,8 @@ app.get('/', (req, res) => {
     res.send('PC Build Planner API is running');
 });
 
-app.use('/api/builds', buildRoutes);
+app.use('/api/auth', authRoutes);     // register + login
+app.use('/api/builds', buildRoutes);  // saved builds (needs login)
 
 // ===== CONNECT TO DATABASE, THEN START SERVER =====
 const PORT = process.env.PORT || 5000;

@@ -14,7 +14,7 @@ function findPart(slotKey, id) {
 }
 
 // ===== COMPONENT =====
-function SavedBuilds({ onBack, onLoad }) {
+function SavedBuilds({ token, onBack, onLoad, onLogout }) {
 
   // ----- State -----
   const [builds, setBuilds] = useState([])
@@ -25,7 +25,16 @@ function SavedBuilds({ onBack, onLoad }) {
   useEffect(() => {
     async function getBuilds() {
       try {
-        const res = await fetch(API_URL + "/api/builds")
+        const res = await fetch(API_URL + "/api/builds", {
+          headers: { "Authorization": "Bearer " + token },
+        })
+
+        // login expired, send them back to log in
+        if (res.status === 401) {
+          onLogout()
+          return
+        }
+
         const data = await res.json()
         setBuilds(data)
       } catch (err) {
@@ -35,7 +44,7 @@ function SavedBuilds({ onBack, onLoad }) {
     }
 
     getBuilds()
-  }, [])
+  }, [token])
 
   // ----- Open a saved build in the builder -----
   function loadBuild(saved) {
@@ -49,7 +58,10 @@ function SavedBuilds({ onBack, onLoad }) {
   // ----- Delete a saved build -----
   async function deleteBuild(id) {
     try {
-      const res = await fetch(API_URL + "/api/builds/" + id, { method: "DELETE" })
+      const res = await fetch(API_URL + "/api/builds/" + id, {
+        method: "DELETE",
+        headers: { "Authorization": "Bearer " + token },
+      })
       if (res.ok) {
         setBuilds(builds.filter((b) => b._id !== id))
       }
