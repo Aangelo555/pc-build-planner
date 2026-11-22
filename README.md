@@ -4,11 +4,11 @@ A full stack web app for planning a PC build. Pick your parts and see straight a
 
 **Live demo:** [pcbuildplanner.vercel.app](https://pcbuildplanner.vercel.app)
 
-![Welcome page](src/assets/Pc_welcomepage.png)
+![Welcome page](src/assets/Pc_welcomepageV2.png)
 
 ## Features
 
-- 3D RTX 4090 model on the welcome page that you can drag around
+- 3D RTX 4090 on the welcome page that spins into place when the page loads, floats, and can be dragged around
 - Pick a CPU, motherboard, RAM, GPU and power supply from a slide-in part picker
 - Compatibility checks:
   - CPU socket has to match the motherboard
@@ -16,6 +16,7 @@ A full stack web app for planning a PC build. Pick your parts and see straight a
   - PSU wattage has to cover the CPU + GPU + 100W headroom
 - Parts that don't fit are greyed out with the reason
 - Live total price and power usage bar, with a warning when the PSU is above 80% load
+- Progress bar showing how many of the 5 parts you have picked
 - Sign up and log in to save your builds
 - My Builds page to open or delete your saved builds
 - You can build without an account, and your parts are kept if you log in halfway
@@ -125,5 +126,5 @@ Part prices are rough SGD estimates and only for demo purposes.
 
 ## Author
 
-Angelo, Year 2 IT student at Republic Polytechnic
+Angelo, Year 2 Information Technology student at Republic Polytechnic, specialising in Full Stack Development
 GitHub: [Aangelo555](https://github.com/Aangelo555)
