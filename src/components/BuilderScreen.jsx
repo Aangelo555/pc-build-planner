@@ -162,15 +162,29 @@ function BuilderScreen({ startBuild, token, username, onBack, onOpenSaved, onNee
             )}
           </div>
 
-          {slots.map((slot) => (
-            <div className="slot" key={slot.key}>
-              <div>
+          {/* Progress: how many parts are picked */}
+          <div className="progress">
+            <p>{partsPicked} of {slots.length} parts picked</p>
+            <div className="progress-bar">
+              <div className="progress-fill" style={{ width: (partsPicked / slots.length) * 100 + "%" }}></div>
+            </div>
+          </div>
+
+          {/* one list, like a parts table */}
+          <div className="slot-list">
+          {slots.map((slot, index) => (
+            <div className={build[slot.key] ? "slot filled" : "slot"} key={slot.key}>
+              <div className="slot-left">
+                {/* step number, since you normally pick parts in this order */}
+                <span className="slot-number">{index + 1}</span>
+                <div>
                 <span className="slot-label">{slot.label}</span>
                 {build[slot.key] ? (
                   <p className="slot-part">{build[slot.key].name}</p>
                 ) : (
                   <p className="slot-empty">Nothing picked yet</p>
                 )}
+                </div>
               </div>
 
               <div className="slot-right">
@@ -184,6 +198,7 @@ function BuilderScreen({ startBuild, token, username, onBack, onOpenSaved, onNee
               </div>
             </div>
           ))}
+          </div>
         </div>
 
         {/* Right: summary */}
