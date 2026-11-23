@@ -148,6 +148,32 @@
   margin-top: -10px;
 }
 
+/* ----- Loading text for the 3D model ----- */
+.welcome-model {
+  position: relative;
+}
+
+/* ".welcome" in front so it beats the ".welcome p" rule */
+.welcome .model-loading {
+  max-width: none;
+  margin: 0;
+  position: absolute;
+  top: 45%;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 14px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums; /* stops the % from jumping around */
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+
+/* fades out once the model is ready */
+.welcome .model-loading.hidden {
+  opacity: 0;
+}
+
 /* ----- Facts along the bottom ----- */
 .welcome-facts {
   display: flex;

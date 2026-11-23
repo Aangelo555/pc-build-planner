@@ -1,11 +1,16 @@
 // ===== IMPORTS =====
 import { Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
-import { OrbitControls, Float, Environment, ContactShadows } from '@react-three/drei'
+import { OrbitControls, Float, Environment, ContactShadows, useProgress } from '@react-three/drei'
 import GPUModel from './GPUModel'
 
 // ===== COMPONENT =====
 function WelcomeScreen({ onStart }) {
+
+  // ----- 3D loading progress -----
+  // progress goes from 0 to 100 while the GPU model and lighting download
+  const { progress } = useProgress()
+  const loaded = progress === 100
 
   // ----- Layout -----
   return (
@@ -37,6 +42,12 @@ function WelcomeScreen({ onStart }) {
 
       {/* 3D GPU, lit like a product photo */}
       <div className="welcome-model">
+
+        {/* shows until the 3D model has finished loading */}
+        <p className={loaded ? "model-loading hidden" : "model-loading"}>
+          Loading 3D model {Math.round(progress)}%
+        </p>
+
         <Canvas camera={{ position: [0, 0.6, 5], fov: 38 }}>
           <ambientLight intensity={0.7} />
           <directionalLight position={[4, 6, 5]} intensity={2} />
