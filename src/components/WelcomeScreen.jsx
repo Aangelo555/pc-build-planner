@@ -56,7 +56,8 @@ function WelcomeScreen({ onStart }) {
             <Float speed={2} rotationIntensity={0.25} floatIntensity={1} floatingRange={[-0.12, 0.12]}>
               <GPUModel />
             </Float>
-            <Environment preset="studio" />
+            {/* lighting file is kept in /public so it never depends on another site */}
+            <Environment files="/studio_small_03_1k.hdr" />
           </Suspense>
           {/* soft shadow on the "floor" under the GPU */}
           <ContactShadows position={[0, -1.25, 0]} opacity={0.35} scale={8} blur={2.8} far={4} />
